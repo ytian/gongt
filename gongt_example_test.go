@@ -19,7 +19,7 @@ package gongt_test
 import (
 	"fmt"
 
-	"github.com/yahoojapan/gongt"
+	"github.com/ytian/gongt"
 )
 
 func ExampleGet() {

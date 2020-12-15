@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-// Package gongt provides implementation of Go API for https://github.com/yahoojapan/NGT
+// Package gongt provides implementation of Go API for https://github.com/ytian/NGT
 package gongt
 
 /*

@@ -22,7 +22,7 @@ import (
 	"runtime"
 
 	"github.com/kpango/glg"
-	"github.com/yahoojapan/gongt"
+	"github.com/ytian/gongt"
 	"gonum.org/v1/hdf5"
 )
 
