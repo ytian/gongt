@@ -17,3 +17,5 @@
 
 *.hdf5
 assets/bench/*/
+
+.vscode/

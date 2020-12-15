@@ -445,12 +445,12 @@ func (n *NGT) Open() *NGT {
 }
 
 // StrictSearch is C type stricted search function
-func StrictSearch(vec []float64, size int, epsilon, radius float32) ([]StrictSearchResult, error) {
-	return ngt.StrictSearch(vec, size, epsilon, radius)
+func StrictSearch(vec []float64, size int, epsilon, radius float32, edgeSize int) ([]StrictSearchResult, error) {
+	return ngt.StrictSearch(vec, size, epsilon, radius, edgeSize)
 }
 
 // StrictSearch is C type stricted search function
-func (n *NGT) StrictSearch(vec []float64, size int, epsilon, radius float32) ([]StrictSearchResult, error) {
+func (n *NGT) StrictSearch(vec []float64, size int, epsilon, radius float32, edgeSize int) ([]StrictSearchResult, error) {
 	ebuf := C.ngt_create_error_object()
 	defer C.ngt_destroy_error_object(ebuf)
 
@@ -461,7 +461,7 @@ func (n *NGT) StrictSearch(vec []float64, size int, epsilon, radius float32) ([]
 	}
 
 	n.mu.RLock()
-	ret := C.ngt_search_index(n.index, (*C.double)(&vec[0]), C.int32_t(n.prop.Dimension), C.size_t(size), C.float(epsilon), C.float(radius), results, ebuf)
+	ret := C.ngt_search_index(n.index, (*C.double)(&vec[0]), C.int32_t(n.prop.Dimension), C.size_t(size), C.float(epsilon), C.float(radius), results, ebuf, C.int32_t(edgeSize))
 	n.mu.RUnlock()
 	if ret == ErrorCode {
 		return nil, newGoError(ebuf)
@@ -484,13 +484,13 @@ func (n *NGT) StrictSearch(vec []float64, size int, epsilon, radius float32) ([]
 }
 
 // Search returns search result as []SearchResult
-func Search(vec []float64, size int, epsilon float64) ([]SearchResult, error) {
-	return ngt.Search(vec, size, epsilon)
+func Search(vec []float64, size int, epsilon float64, edgeSize int) ([]SearchResult, error) {
+	return ngt.Search(vec, size, epsilon, edgeSize)
 }
 
 // Search returns search result as []SearchResult
-func (n *NGT) Search(vec []float64, size int, epsilon float64) ([]SearchResult, error) {
-	res, err := n.StrictSearch(vec, size, float32(epsilon), -1.0)
+func (n *NGT) Search(vec []float64, size int, epsilon float64, edgeSize int) ([]SearchResult, error) {
+	res, err := n.StrictSearch(vec, size, float32(epsilon), -1.0, edgeSize)
 	if err != nil {
 		return nil, err
 	}
